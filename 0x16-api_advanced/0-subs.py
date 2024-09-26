@@ -1,25 +1,32 @@
 #!/usr/bin/python3
-
-"""dunctionn that returns # of subscribers for a given subreddit"""
+'''A module containing functions for working with the Reddit API.
+'''
 import requests
 
 
+BASE_URL = 'https://www.reddit.com'
+'''Reddit's base API URL.
+'''
+
+
 def number_of_subscribers(subreddit):
-    """Gets number of subscribers
-       Args:
-           subreddit (str): name of subreddit
-       Returns:
-           number of subscribers if valid, 0 otherwise
-    """
-    base_url = 'https://api.reddit.com/r/'
-    headers = {'User-Agent': 'my-app/0.0.1'}
-    response = requests.get(
-        '{}{}/about'.format(
-            base_url, subreddit), headers=headers, allow_redirects=False)
-
-    if response.status_code != 200:
-        return 0
-
-    about_dict = response.json()
-
-    return about_dict['data']['subscribers']
+    '''Retrieves the number of subscribers in a given subreddit.
+    '''
+    api_headers = {
+        'Accept': 'application/json',
+        'User-Agent': ' '.join([
+            'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
+            'AppleWebKit/537.36 (KHTML, like Gecko)',
+            'Chrome/97.0.4692.71',
+            'Safari/537.36',
+            'Edg/97.0.1072.62'
+        ])
+    }
+    res = requests.get(
+        '{}/r/{}/about/.json'.format(BASE_URL, subreddit),
+        headers=api_headers,
+        allow_redirects=False
+    )
+    if res.status_code == 200:
+        return res.json()['data']['subscribers']
+    return 0

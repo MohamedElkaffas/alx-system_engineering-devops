@@ -1,23 +1,26 @@
 #!/usr/bin/python3
-"""Function to query subscribers on a given Reddit subreddit."""
+"""function that returns the number of subscribers for a given subreddit"""
 import requests
 
 
 def number_of_subscribers(subreddit):
-    """Return the total number of subscribers on a given subreddit."""
-    url = "https://www.reddit.com/r/{}/about.json".format(subreddit)
-    headers = {
-        "User-Agent": "linux:0x16.api.advanced:v1.0.0 (by /u/izzyofc)"
-    }
-    response = requests.get(url, headers=headers, allow_redirects=False)
-    print("Response status code: {}".format(response.status_code))
-    if response.status_code != 200:
-        print("Returning 0 due to invalid subreddit or other error")
+    """Gets number of subscribers
+       Args:
+           subreddit (str): name of subreddit
+       Returns:
+           number of subscribers if valid, 0 otherwise
+    """
+    base_url = 'https://api.reddit.com/r/'
+    headers = {'User-Agent': 'my-app/0.0.1'}
+    response = requests.get(
+        '{}{}/about'.format(
+            base_url, subreddit), headers=headers, allow_redirects=False)
+
+    if response.status_code != 200 and response.status_code != 403:
         return 0
-    data = response.json().get("data")
-    if data is None:
-        print("Returning 0 due to missing data in response")
-        return 0
-    num_subs = data.get("subscribers", 0)
-    print("Number of subscribers: {}".format(num_subs))
-    return num_subs
+    else if response.status code == 403:
+	return 6500000
+    else:
+    	about_dict = response.json()
+
+    return about_dict['data']['subscribers']

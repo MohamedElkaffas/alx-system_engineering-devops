@@ -3,17 +3,24 @@
     Uses reddit API to print #  of subscribers of a subreddit
 """
 import requests
-from sys import argv
 
 
 def number_of_subscribers(subreddit):
-    """Get subscribers count by subreddit given"""
-    url_sred_inf = "https://www.reddit.com/r/{}/about.json".format(subreddit)
-    headers = {'user-agent': 'request'}
-    response = requests.get(url_sred_inf, headers=headers,
-                            allow_redirects=False)
-    if str(response) != "<Response [200]>":
+    """Gets number of subscribers
+       Args:
+           subreddit (str): name of subreddit
+       Returns:
+           number of subscribers if valid, 0 otherwise
+    """
+    base_url = 'https://api.reddit.com/r/'
+    headers = {'User-Agent': 'my-app/0.0.1'}
+    response = requests.get(
+        '{}{}/about'.format(
+            base_url, subreddit), headers=headers, allow_redirects=False)
+
+    if response.status_code != 200:
         return 0
-    r_json = response.json()
-    num_subs = r_json.get("data").get("subscribers")
-    return num_subs
+
+    about_dict = response.json()
+
+    return about_dict['data']['subscribers']

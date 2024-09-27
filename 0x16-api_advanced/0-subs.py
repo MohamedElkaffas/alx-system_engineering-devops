@@ -15,7 +15,7 @@ def number_of_subscribers(subreddit):
     client.post('https://www.reddit.com/api/login', data=user_pass_dict)
     
     response = client.get(url, allow_redirects=False)
-    if response.status_code != 404:
-        return response.json().get("data", {}).get("subscribers", 0)
+    if response.status_code == 200:
+        return response.json().get("data", {}).get("subscribers")
     else:
         return 0

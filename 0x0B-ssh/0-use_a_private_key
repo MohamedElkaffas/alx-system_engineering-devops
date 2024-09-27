@@ -1,7 +1,4 @@
 #!/usr/bin/env bash
-
-# Script to connect to the server using a private key
-# Define the server IP address
-
-SERVER_IP = "34.229.69.115"
-ssh -i ~/.ssh/school ubuntu@$SERVER_IP
+# connect to your server using the private key ~/.ssh/school
+# echo "SSH Public key" >> ~/.ssh/authorized_keys
+ssh -i ~/.ssh/school ubuntu@44.192.38.3

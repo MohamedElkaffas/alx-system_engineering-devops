@@ -1,8 +1,7 @@
 # ssh config file
-HOST 34.229.69.115
+Host 34.229.69.115
     PasswordAuthentication no
     IdentityFile ~/.ssh/school
     SendEnv LANG LC_*
     HashKnownHosts yes
     GSSAPIAuthentication yes
-
